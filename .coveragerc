@@ -1,0 +1,7 @@
+[run]
+branch = True
+source = openstack_qa_tools
+omit = openstack_qa_tools/openstack/*
+
+[report]
+ignore_errors = True
