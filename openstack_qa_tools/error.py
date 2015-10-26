@@ -1,0 +1,2 @@
+class CollectionError(Exception):
+    pass

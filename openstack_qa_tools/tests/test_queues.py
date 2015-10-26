@@ -13,16 +13,26 @@
 # under the License.
 
 """
-test_openstack_qa_tools
+test_collectors
 ----------------------------------
 
-Tests for `openstack_qa_tools` module.
+Tests for `openstack_qa_tools.collectors`
 """
 
+import mock
+
+from openstack_qa_tools.collectors import queues
+from openstack_qa_tools import error
 from openstack_qa_tools.tests import base
 
 
-class TestOpenstack_qa_tools(base.TestCase):
+class TestOpenStackQaTols(base.TestCase):
 
-    def test_something(self):
-        pass
+    @mock.patch('httplib.HTTPConnection')
+    def test_queues(self, httplib_mock):
+        reader = mock.MagicMock()
+        reader.read.return_value = '[]'
+        conn = httplib_mock.return_value
+        conn.getresponse.return_value = reader
+        data = queues.collect()
+        self.assertEquals({}, data)
