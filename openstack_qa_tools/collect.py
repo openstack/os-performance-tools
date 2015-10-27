@@ -15,6 +15,7 @@ import json
 import logging
 import threading
 
+from openstack_qa_tools.collectors import _delta
 from openstack_qa_tools.collectors import mysql
 from openstack_qa_tools.collectors import queues
 
@@ -35,6 +36,8 @@ def get_queues():
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--loglevel', default=logging.INFO)
+    parser.add_argument('--delta', help="Path to json file to read previous "
+                                        "values from")
     args = parser.parse_args()
     logging.basicConfig(
         format='%(asctime)-15s %(levelname)s %(threadName)s: %(message)s')
@@ -50,12 +53,14 @@ def main():
     getqueues.join()
     log.debug('threads all returned')
 
-    final = {
+    collected = {
         'mysql': mysql_data,
         'queues': queues_data,
     }
+    if args.delta:
+        collected = _delta.delta_with_file(args.delta, collected)
 
-    print(json.dumps(final, indent=1))
+    print(json.dumps(collected, indent=1))
 
 if __name__ == '__main__':
     main()
