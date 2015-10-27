@@ -1,37 +1,35 @@
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+#    http://www.apache.org/licenses/LICENSE-2.0
 #
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 import base64
 import httplib
 import json
 import os
 import socket
-import urllib2
 
 from openstack_qa_tools import error
 
 DSTAT_RABBITMQ_API = os.environ.get('DSTAT_RABBITMQ_API',
                                     '127.0.0.1:15672')
 DSTAT_RABBITMQ_API_USER = os.environ.get('DSTAT_RABBITMQ_USER',
-                                    'guest')
+                                         'guest')
 DSTAT_RABBITMQ_API_PASS = os.environ.get('DSTAT_RABBITMQ_PASS',
-                                    'guest')
+                                         'guest')
+
 
 def collect():
     conn = httplib.HTTPConnection(DSTAT_RABBITMQ_API)
     auth = base64.encodestring('%s:%s' % (DSTAT_RABBITMQ_API_USER,
-                                               DSTAT_RABBITMQ_API_PASS))
+                                          DSTAT_RABBITMQ_API_PASS))
     auth = auth.replace('\n', '')
     auth = {'Authorization': 'Basic %s' % auth}
     try:
@@ -42,7 +40,8 @@ def collect():
 
     content = json.loads(content)
     if not isinstance(content, list):
-        raise error.CollectionError('Unexpected format encountered. %s' % content)
+        raise error.CollectionError(
+            'Unexpected format encountered. %s' % content)
     collected = {}
     for q in content:
         if not isinstance(q, dict):
@@ -51,7 +50,6 @@ def collect():
             continue
         qname = q["name"]
         if "message_stats" in q and "publish" in q["message_stats"]:
-            newpub = q["message_stats"]["publish"]
             target = '%s_message_stats' % (qname)
             collected[target] = q["message_stats"]["publish"]
     return collected

@@ -22,7 +22,6 @@ Tests for `openstack_qa_tools.collectors`
 import mock
 
 from openstack_qa_tools.collectors import queues
-from openstack_qa_tools import error
 from openstack_qa_tools.tests import base
 
 
@@ -35,4 +34,4 @@ class TestOpenStackQaTols(base.TestCase):
         conn = httplib_mock.return_value
         conn.getresponse.return_value = reader
         data = queues.collect()
-        self.assertEquals({}, data)
+        self.assertEqual({}, data)

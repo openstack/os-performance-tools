@@ -22,23 +22,22 @@ Tests for `openstack_qa_tools.collectors`
 import mock
 
 from openstack_qa_tools.collectors import mysql
-from openstack_qa_tools import error
 from openstack_qa_tools.tests import base
 
 
-class TestOpenStackQaTols(base.TestCase):
+class TestOpenStackQaTools(base.TestCase):
 
     @mock.patch('openstack_qa_tools.collectors.mysql._get_config')
     @mock.patch('pymysql.connect')
     def test_mysql(self, pymysql_mock, get_config_mock):
         connection = mock.MagicMock()
         curs = mock.MagicMock()
-        side_effect = [ (k, 0) for k in mysql.COLLECT_COUNTERS ]
-        side_effect.append(None) # Instead of StopIteration pymsql uses None
+        side_effect = [(k, 0) for k in mysql.COLLECT_COUNTERS]
+        side_effect.append(None)  # Instead of StopIteration pymsql uses None
         curs.fetchone.side_effect = side_effect
         connection.cursor.return_value = curs
         pymysql_mock.return_value = connection
         result = mysql.collect()
-        self.assertEquals(sorted(mysql.COLLECT_COUNTERS),
-                          sorted(result.keys()))
+        self.assertEqual(sorted(mysql.COLLECT_COUNTERS),
+                         sorted(result.keys()))
         self.assertTrue(all([val == 0 for val in result.values()]))
