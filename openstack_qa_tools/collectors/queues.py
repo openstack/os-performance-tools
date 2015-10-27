@@ -11,6 +11,7 @@
 # limitations under the License.
 
 import base64
+import logging
 import json
 import os
 import socket
@@ -28,6 +29,7 @@ DSTAT_RABBITMQ_API_PASS = os.environ.get('DSTAT_RABBITMQ_PASS',
 
 
 def collect():
+    log = logging.getLogger()
     conn = http_client.HTTPConnection(DSTAT_RABBITMQ_API)
     auth = '%s:%s' % (DSTAT_RABBITMQ_API_USER, DSTAT_RABBITMQ_API_PASS)
     auth = base64.encodestring(auth.encode('utf-8')).decode('ascii')
@@ -35,7 +37,9 @@ def collect():
     auth = {'Authorization': 'Basic %s' % auth}
     try:
         conn.request('GET', '/api/queues', headers=auth)
+        log.debug('requested /api/queues')
         content = conn.getresponse().read()
+        log.debug('received content')
     except (socket.error, http_client.HTTPException) as e:
         raise error.CollectionError(str(e))
 

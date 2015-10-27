@@ -13,6 +13,7 @@
 # This file was forked from dstat's mysql5_innodb plugin but retains none of
 # that original code other than a list of well known MySQL variable names.
 
+import logging
 import os
 
 import pymysql
@@ -55,6 +56,7 @@ def _get_config():
 
 
 def collect():
+    log = logging.getLogger()
     args = _get_config()
     conn = pymysql.connect(**args)
     cursor = conn.cursor()
@@ -67,4 +69,5 @@ def collect():
         k, v = result
         if k in COLLECT_COUNTERS:
             counters[k] = int(v)
+    log.debug(counters)
     return counters
