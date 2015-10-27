@@ -27,9 +27,9 @@ from openstack_qa_tools.tests import base
 
 class TestOpenStackQaTols(base.TestCase):
 
-    @mock.patch('httplib.HTTPConnection')
+    @mock.patch('six.moves.http_client.HTTPConnection')
     def test_queues(self, httplib_mock):
-        reader = mock.MagicMock()
+        reader = mock.MagicMock(name='getresponse_reader')
         reader.read.return_value = '[]'
         conn = httplib_mock.return_value
         conn.getresponse.return_value = reader

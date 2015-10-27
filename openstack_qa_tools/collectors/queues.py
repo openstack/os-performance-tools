@@ -11,10 +11,11 @@
 # limitations under the License.
 
 import base64
-import httplib
 import json
 import os
 import socket
+
+from six.moves import http_client
 
 from openstack_qa_tools import error
 
@@ -27,15 +28,15 @@ DSTAT_RABBITMQ_API_PASS = os.environ.get('DSTAT_RABBITMQ_PASS',
 
 
 def collect():
-    conn = httplib.HTTPConnection(DSTAT_RABBITMQ_API)
-    auth = base64.encodestring('%s:%s' % (DSTAT_RABBITMQ_API_USER,
-                                          DSTAT_RABBITMQ_API_PASS))
+    conn = http_client.HTTPConnection(DSTAT_RABBITMQ_API)
+    auth = '%s:%s' % (DSTAT_RABBITMQ_API_USER, DSTAT_RABBITMQ_API_PASS)
+    auth = base64.encodestring(auth.encode('utf-8')).decode('ascii')
     auth = auth.replace('\n', '')
     auth = {'Authorization': 'Basic %s' % auth}
     try:
         conn.request('GET', '/api/queues', headers=auth)
         content = conn.getresponse().read()
-    except (socket.error, httplib.HTTPException) as e:
+    except (socket.error, http_client.HTTPException) as e:
         raise error.CollectionError(str(e))
 
     content = json.loads(content)
