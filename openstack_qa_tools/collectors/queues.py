@@ -39,7 +39,7 @@ def collect():
         conn.request('GET', '/api/queues', headers=auth)
         log.debug('requested /api/queues')
         content = conn.getresponse().read()
-        log.debug('received content')
+        log.debug('received content [%s]' % content)
     except (socket.error, http_client.HTTPException) as e:
         raise error.CollectionError(str(e))
 
