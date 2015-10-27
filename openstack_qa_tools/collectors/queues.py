@@ -14,6 +14,7 @@ import base64
 import json
 import logging
 import os
+import re
 import socket
 
 from six.moves import http_client
@@ -26,6 +27,7 @@ OS_QA_RABBITMQ_API_USER = os.environ.get('OS_QA_RABBITMQ_USER',
                                          'guest')
 OS_QA_RABBITMQ_API_PASS = os.environ.get('OS_QA_RABBITMQ_PASS',
                                          'guest')
+FANOUT_RE = re.compile('([\-a-zA-Z0-9]+)_fanout_[a-f0-9]{32}')
 
 
 def collect():
@@ -54,6 +56,12 @@ def collect():
         if "name" not in q or "messages" not in q:
             continue
         qname = q["name"]
+        if qname.startswith('reply_'):
+            qname = 'reply'
+        else:
+            match = FANOUT_RE.match(qname)
+            if match:
+                qname = '{}_fanout'.format(match.group(1))
         if "message_stats" in q and "publish" in q["message_stats"]:
             target = '%s_message_stats' % (qname)
             collected[target] = q["message_stats"]["publish"]
