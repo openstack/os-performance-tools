@@ -59,8 +59,8 @@ def collect():
     conn = pymysql.connect(**args)
     cursor = conn.cursor()
     counters = {}
+    cursor.execute('show global status')
     while True:
-        cursor.execute('show global status')
         result = cursor.fetchone()
         if result is None:
             break
