@@ -20,18 +20,18 @@ from six.moves import http_client
 
 from openstack_qa_tools import error
 
-DSTAT_RABBITMQ_API = os.environ.get('DSTAT_RABBITMQ_API',
+OS_QA_RABBITMQ_API = os.environ.get('OS_QA_RABBITMQ_API',
                                     '127.0.0.1:15672')
-DSTAT_RABBITMQ_API_USER = os.environ.get('DSTAT_RABBITMQ_USER',
+OS_QA_RABBITMQ_API_USER = os.environ.get('OS_QA_RABBITMQ_USER',
                                          'guest')
-DSTAT_RABBITMQ_API_PASS = os.environ.get('DSTAT_RABBITMQ_PASS',
+OS_QA_RABBITMQ_API_PASS = os.environ.get('OS_QA_RABBITMQ_PASS',
                                          'guest')
 
 
 def collect():
     log = logging.getLogger()
-    conn = http_client.HTTPConnection(DSTAT_RABBITMQ_API)
-    auth = '%s:%s' % (DSTAT_RABBITMQ_API_USER, DSTAT_RABBITMQ_API_PASS)
+    conn = http_client.HTTPConnection(OS_QA_RABBITMQ_API)
+    auth = '%s:%s' % (OS_QA_RABBITMQ_API_USER, OS_QA_RABBITMQ_API_PASS)
     auth = base64.encodestring(auth.encode('utf-8')).decode('ascii')
     auth = auth.replace('\n', '')
     auth = {'Authorization': 'Basic %s' % auth}
