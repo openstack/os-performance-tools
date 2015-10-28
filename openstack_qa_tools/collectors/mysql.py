@@ -37,8 +37,6 @@ COLLECT_COUNTERS = (
     'Innodb_rows_updated',
     'Queries',
     'Slow_queries',
-    'Threads_connected',
-    'Threads_running',
 )
 
 
