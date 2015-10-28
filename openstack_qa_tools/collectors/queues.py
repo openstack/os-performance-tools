@@ -53,7 +53,7 @@ def collect():
     for q in content:
         if not isinstance(q, dict):
             continue
-        if "name" not in q or "messages" not in q:
+        if "name" not in q:
             continue
         qname = q["name"]
         if qname.startswith('reply_'):

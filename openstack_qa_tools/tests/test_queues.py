@@ -19,6 +19,7 @@ test_collectors
 Tests for `openstack_qa_tools.collectors`
 """
 
+import json
 import mock
 
 from openstack_qa_tools.collectors import queues
@@ -30,8 +31,9 @@ class TestOpenStackQaTols(base.TestCase):
     @mock.patch('six.moves.http_client.HTTPConnection')
     def test_queues(self, httplib_mock):
         reader = mock.MagicMock(name='getresponse_reader')
-        reader.read.return_value = '[]'
+        rval = json.dumps([{'name': 'foo', 'message_stats': {'publish': 1}}])
+        reader.read.return_value = rval
         conn = httplib_mock.return_value
         conn.getresponse.return_value = reader
         data = queues.collect()
-        self.assertEqual({}, data)
+        self.assertEqual({'foo_publish': 1}, data)
