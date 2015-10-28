@@ -63,6 +63,6 @@ def collect():
             if match:
                 qname = '{}_fanout'.format(match.group(1))
         if "message_stats" in q and "publish" in q["message_stats"]:
-            target = '%s_message_stats' % (qname)
+            target = '%s_publish' % (qname)
             collected[target] = q["message_stats"]["publish"]
     return collected
