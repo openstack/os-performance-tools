@@ -4,3 +4,6 @@
 
 pbr>=1.6
 PyMySQL>=0.6.2  # MIT License
+daemon
+gear
+subunit2sql
