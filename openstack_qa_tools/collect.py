@@ -13,11 +13,13 @@
 import argparse
 import json
 import logging
+import sys
 import threading
 
 from openstack_qa_tools.collectors import _delta
 from openstack_qa_tools.collectors import mysql
 from openstack_qa_tools.collectors import queues
+from subunit import v2 as subunit_v2
 
 mysql_data = {}
 queues_data = {}
@@ -33,12 +35,19 @@ def get_queues():
     queues_data = queues.collect()
 
 
-def main():
-    parser = argparse.ArgumentParser()
+def main(argv=None):
+    if argv is None:
+        argv = sys.argv
+    parser = argparse.ArgumentParser(argv[0])
     parser.add_argument('--loglevel', default=logging.INFO)
     parser.add_argument('--delta', help="Path to json file to read previous "
                                         "values from")
-    args = parser.parse_args()
+    parser.add_argument('--subunit', nargs='?', default=None,
+                        const='counters.json',
+                        help="Wrap the json output in a subunit stream. If an "
+                        "argument is passed used that as the filename, "
+                        "otherwise 'counters.json' will be used")
+    args = parser.parse_args(argv[1:])
     logging.basicConfig(
         format='%(asctime)-15s %(levelname)s %(threadName)s: %(message)s')
     log = logging.getLogger()
@@ -60,7 +69,16 @@ def main():
     if args.delta:
         collected = _delta.delta_with_file(args.delta, collected)
 
-    print(json.dumps(collected, indent=1))
+    content = json.dumps(collected, indent=1, sort_keys=True).encode('utf-8')
+    if args.subunit is not None:
+        file_name = args.subunit or 'counters.json'
+        stream = subunit_v2.StreamResultToBytes(sys.stdout)
+        stream.startTestRun()
+        stream.status(file_name=file_name, file_bytes=content,
+                      mime_type='application/json')
+        stream.stopTestRun()
+    else:
+        print(content.encode('utf-8'))
 
 if __name__ == '__main__':
     main()
