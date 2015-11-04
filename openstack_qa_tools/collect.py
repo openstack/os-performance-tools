@@ -35,7 +35,9 @@ def get_queues():
     queues_data = queues.collect()
 
 
-def main(argv=None):
+def main(argv=None, stdout=None):
+    if stdout is None:
+        stdout = sys.stdout
     if argv is None:
         argv = sys.argv
     parser = argparse.ArgumentParser(argv[0])
@@ -72,13 +74,14 @@ def main(argv=None):
     content = json.dumps(collected, indent=1, sort_keys=True).encode('utf-8')
     if args.subunit is not None:
         file_name = args.subunit or 'counters.json'
-        stream = subunit_v2.StreamResultToBytes(sys.stdout)
+        stream = subunit_v2.StreamResultToBytes(stdout)
         stream.startTestRun()
         stream.status(file_name=file_name, file_bytes=content,
                       mime_type='application/json')
         stream.stopTestRun()
     else:
-        print(content.encode('utf-8'))
+        stdout.write(content)
+        stdout.write(b"\n")
 
 if __name__ == '__main__':
     main()
