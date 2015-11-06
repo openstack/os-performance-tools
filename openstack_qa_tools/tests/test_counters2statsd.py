@@ -34,8 +34,10 @@ class TestOpenStackQaTols(base.TestCase):
         mock_client.incr = mock.MagicMock('statds_incr')
         statsd_mock.return_value = mock_client
         fake_counters = {'mysql': {'Queries': 10}}
-        fake_counters['__counters_meta__'] = {}
-        fake_counters = json.dumps(fake_counters)
-        counters2statsd.add_test_run_attachments([fake_counters], 'foo', None)
-        statsd_mock.assert_called_with(None, None, None)
+        fake_counters = json.dumps(fake_counters).encode('utf-8')
+        self.assertTrue(counters2statsd.AttachmentResult.enabled())
+        result = counters2statsd.AttachmentResult()
+        result.status(file_name='counters.json', file_bytes=fake_counters)
+        result.stopTestRun()
+        statsd_mock.assert_called_with('localhost', 8125, None)
         mock_client.incr.assert_called_with('mysql.Queries', 10)
