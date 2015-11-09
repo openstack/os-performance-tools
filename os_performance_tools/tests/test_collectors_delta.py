@@ -16,13 +16,13 @@
 test_delta
 ----------------------------------
 
-Tests for `openstack_qa_tools.collectors._delta`
+Tests for `os_performance_tools.collectors._delta`
 """
 
 import testscenarios
 
-from openstack_qa_tools.collectors import _delta
-from openstack_qa_tools.tests import base
+from os_performance_tools.collectors import _delta
+from os_performance_tools.tests import base
 
 
 class TestOSQATDelta(testscenarios.WithScenarios, base.TestCase):

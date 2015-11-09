@@ -16,4 +16,4 @@ import pbr.version
 
 
 __version__ = pbr.version.VersionInfo(
-    'openstack_qa_tools').version_string()
+    'os_performance_tools').version_string()

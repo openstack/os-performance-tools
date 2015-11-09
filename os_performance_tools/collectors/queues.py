@@ -19,7 +19,7 @@ import socket
 
 from six.moves import http_client
 
-from openstack_qa_tools import error
+from os_performance_tools import error
 
 OS_QA_RABBITMQ_API = os.environ.get('OS_QA_RABBITMQ_API',
                                     '127.0.0.1:15672')

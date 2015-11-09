@@ -16,9 +16,9 @@ import logging
 import sys
 import threading
 
-from openstack_qa_tools.collectors import _delta
-from openstack_qa_tools.collectors import mysql
-from openstack_qa_tools.collectors import queues
+from os_performance_tools.collectors import _delta
+from os_performance_tools.collectors import mysql
+from os_performance_tools.collectors import queues
 from subunit import v2 as subunit_v2
 
 mysql_data = {}

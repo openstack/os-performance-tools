@@ -16,14 +16,14 @@
 test_collectors
 ----------------------------------
 
-Tests for `openstack_qa_tools.collectors`
+Tests for `os_performance_tools.collectors`
 """
 
 import json
 import mock
 
-from openstack_qa_tools.collectors import queues
-from openstack_qa_tools.tests import base
+from os_performance_tools.collectors import queues
+from os_performance_tools.tests import base
 
 
 class TestOpenStackQaTols(base.TestCase):

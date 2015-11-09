@@ -16,18 +16,18 @@
 test_collectors
 ----------------------------------
 
-Tests for `openstack_qa_tools.collectors`
+Tests for `os_performance_tools.collectors`
 """
 
 import mock
 
-from openstack_qa_tools.collectors import mysql
-from openstack_qa_tools.tests import base
+from os_performance_tools.collectors import mysql
+from os_performance_tools.tests import base
 
 
 class TestOpenStackQaTools(base.TestCase):
 
-    @mock.patch('openstack_qa_tools.collectors.mysql._get_config')
+    @mock.patch('os_performance_tools.collectors.mysql._get_config')
     @mock.patch('pymysql.connect')
     def test_mysql(self, pymysql_mock, get_config_mock):
         connection = mock.MagicMock()

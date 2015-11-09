@@ -19,7 +19,7 @@ import os
 import pymysql
 from six.moves import configparser
 
-from openstack_qa_tools import error
+from os_performance_tools import error
 
 COLLECT_COUNTERS = (
     'Com_delete',

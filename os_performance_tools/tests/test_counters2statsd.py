@@ -16,14 +16,14 @@
 test_counters2statsd
 ----------------------------------
 
-Tests for `openstack_qa_tools.counters2statsd`
+Tests for `os_performance_tools.counters2statsd`
 """
 
 import json
 import mock
 
-from openstack_qa_tools import counters2statsd
-from openstack_qa_tools.tests import base
+from os_performance_tools import counters2statsd
+from os_performance_tools.tests import base
 
 
 class TestOpenStackQaTols(base.TestCase):

@@ -16,14 +16,14 @@
 test_collect
 ----------------------------------
 
-Tests for `openstack_qa_tools.collect`
+Tests for `os_performance_tools.collect`
 """
 
 import json
 import mock
 
-from openstack_qa_tools import collect
-from openstack_qa_tools.tests import base
+from os_performance_tools import collect
+from os_performance_tools.tests import base
 import six
 import subunit
 import testtools
@@ -49,8 +49,8 @@ class TestCollect(base.TestCase):
         self.stdout = six.BytesIO()
         self.attachments = []
 
-    @mock.patch('openstack_qa_tools.collectors.mysql.collect')
-    @mock.patch('openstack_qa_tools.collectors.queues.collect')
+    @mock.patch('os_performance_tools.collectors.mysql.collect')
+    @mock.patch('os_performance_tools.collectors.queues.collect')
     def test_collect_main(self, queues_mock, mysql_mock):
         mysql_mock.return_value = {}
         queues_mock.return_value = {}
@@ -66,8 +66,8 @@ class TestCollect(base.TestCase):
             name = name.split(':')[0]
             self.attachments[name] = detail
 
-    @mock.patch('openstack_qa_tools.collectors.mysql.collect')
-    @mock.patch('openstack_qa_tools.collectors.queues.collect')
+    @mock.patch('os_performance_tools.collectors.mysql.collect')
+    @mock.patch('os_performance_tools.collectors.queues.collect')
     def test_collect_main_subunit(self, queues_mock, mysql_mock):
         mysql_mock.return_value = {}
         queues_mock.return_value = {}

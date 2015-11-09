@@ -2,6 +2,6 @@
 Usage
 ========
 
-To use openstack-qa-tools in a project::
+To use os-performance-tools in a project::
 
-    import openstack_qa_tools
+    import os_performance_tools
