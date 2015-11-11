@@ -81,8 +81,8 @@ def main(argv=None, stdout=None):
                       mime_type='application/json')
         stream.stopTestRun()
     else:
-        stdout.write(content)
-        stdout.write(b"\n")
+        stdout.write(content.decode('utf-8'))
+        stdout.write("\n")
     if args.output:
         with open(args.output, 'wb') as output:
             output.write(content)
