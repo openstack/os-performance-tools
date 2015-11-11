@@ -96,7 +96,7 @@ class TestCollect(base.TestCase):
             collect.main(
                 ['os-collect-counters', '--subunit', '--output', tfile.name],
                 self.stdout)
-            content = json.loads(tfile.read())
+            content = json.loads(tfile.read().decode('utf-8'))
             self.assertTrue(isinstance(content, dict))
             self.assertIn('mysql', content)
             self.assertIn('queues', content)

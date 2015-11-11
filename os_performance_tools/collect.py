@@ -84,7 +84,7 @@ def main(argv=None, stdout=None):
         stdout.write(content)
         stdout.write(b"\n")
     if args.output:
-        with open(args.output, 'w') as output:
+        with open(args.output, 'wb') as output:
             output.write(content)
             output.write(b"\n")
 
