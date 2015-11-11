@@ -13,7 +13,7 @@
 import json
 
 
-def delta(previous, current):
+def delta(previous, current, meta=False):
     product = {}
     seen = set()
 
@@ -27,10 +27,17 @@ def delta(previous, current):
                 'Type of key %s changed from %s to %s' % (k,
                                                           type(v),
                                                           type(newv)))
-        if isinstance(v, int) or isinstance(v, float):
+        if k == '__meta__':
+            meta = True
+        if meta and k == 'delta_seconds':
+            continue
+        elif meta and k == 'unixtime':
+            product['delta_seconds'] = newv - v
+            product[k] = newv
+        elif isinstance(v, int) or isinstance(v, float):
             product[k] = newv - v
         elif isinstance(v, dict):
-            product[k] = delta(v, newv)
+            product[k] = delta(v, newv, meta)
         else:
             raise ValueError('Only mappings of numbers are understood')
         seen.add(k)

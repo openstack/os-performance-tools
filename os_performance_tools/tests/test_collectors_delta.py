@@ -60,6 +60,18 @@ class TestOSQATDelta(testscenarios.WithScenarios, base.TestCase):
             previous={'zoo': {'horse': 7}},
             current={'zoo': 15},
             expected=ValueError)),
+        ('meta_unixtime', dict(
+            previous={'__meta__': {'unixtime': 1.0}},
+            current={'__meta__': {'unixtime': 10.5}},
+            expected={'__meta__': {'unixtime': 10.5, 'delta_seconds': 9.5}})),
+        ('meta_unixtime_gone', dict(
+            previous={'__meta__': {'unixtime': 1.0}},
+            current={},
+            expected={})),
+        ('meta_unixtime_new', dict(
+            previous={},
+            current={'__meta__': {'unixtime': 1.0}},
+            expected={'__meta__': {'unixtime': 1.0}})),
     ]
 
     def test_delta(self):
