@@ -15,6 +15,7 @@ import json
 import logging
 import sys
 import threading
+import time
 
 from os_performance_tools.collectors import _delta
 from os_performance_tools.collectors import mysql
@@ -66,7 +67,10 @@ def main(argv=None, stdout=None):
     getqueues.join()
     log.debug('threads all returned')
 
+    meta = {'unixtime': time.time()}
+
     collected = {
+        '__meta__': meta,
         'mysql': mysql_data,
         'queues': queues_data,
     }
