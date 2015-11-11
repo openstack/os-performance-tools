@@ -49,6 +49,8 @@ def main(argv=None, stdout=None):
                         help="Wrap the json output in a subunit stream. If an "
                         "argument is passed used that as the filename, "
                         "otherwise 'counters.json' will be used")
+    parser.add_argument('--output', help="Write JSON here. Does not disable "
+                        "stdout.")
     args = parser.parse_args(argv[1:])
     logging.basicConfig(
         format='%(asctime)-15s %(levelname)s %(threadName)s: %(message)s')
@@ -70,7 +72,6 @@ def main(argv=None, stdout=None):
     }
     if args.delta:
         collected = _delta.delta_with_file(args.delta, collected)
-
     content = json.dumps(collected, indent=1, sort_keys=True).encode('utf-8')
     if args.subunit is not None:
         file_name = args.subunit or 'counters.json'
@@ -82,6 +83,10 @@ def main(argv=None, stdout=None):
     else:
         stdout.write(content)
         stdout.write(b"\n")
+    if args.output:
+        with open(args.output, 'w') as output:
+            output.write(content)
+            output.write(b"\n")
 
 if __name__ == '__main__':
     main()

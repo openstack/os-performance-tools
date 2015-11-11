@@ -21,6 +21,7 @@ Tests for `os_performance_tools.collect`
 
 import json
 import mock
+import tempfile
 
 from os_performance_tools import collect
 from os_performance_tools.tests import base
@@ -72,6 +73,33 @@ class TestCollect(base.TestCase):
         mysql_mock.return_value = {}
         queues_mock.return_value = {}
         collect.main(['os-collect-counters', '--subunit'], self.stdout)
+        self.stdout.seek(0)
+        stream = subunit.ByteStreamToStreamResult(self.stdout)
+        result = StreamResult()
+        result.startTestRun()
+        try:
+            stream.run(result)
+        finally:
+            result.stopTestRun()
+        self.assertIsNotNone(result.counters_content)
+        content = json.loads(result.counters_content.decode('utf-8'))
+        self.assertTrue(isinstance(content, dict))
+        self.assertIn('mysql', content)
+        self.assertIn('queues', content)
+
+    @mock.patch('os_performance_tools.collectors.mysql.collect')
+    @mock.patch('os_performance_tools.collectors.queues.collect')
+    def test_collect_main_subunit_and_json(self, queues_mock, mysql_mock):
+        mysql_mock.return_value = {}
+        queues_mock.return_value = {}
+        with tempfile.NamedTemporaryFile() as tfile:
+            collect.main(
+                ['os-collect-counters', '--subunit', '--output', tfile.name],
+                self.stdout)
+            content = json.loads(tfile.read())
+            self.assertTrue(isinstance(content, dict))
+            self.assertIn('mysql', content)
+            self.assertIn('queues', content)
         self.stdout.seek(0)
         stream = subunit.ByteStreamToStreamResult(self.stdout)
         result = StreamResult()
