@@ -52,6 +52,7 @@ def main(argv=None, stdout=None):
                         "otherwise 'counters.json' will be used")
     parser.add_argument('--output', help="Write JSON here. Does not disable "
                         "stdout.")
+    parser.add_argument('--meta-prefix', help="Set a prefix in __meta__")
     args = parser.parse_args(argv[1:])
     logging.basicConfig(
         format='%(asctime)-15s %(levelname)s %(threadName)s: %(message)s')
@@ -68,6 +69,8 @@ def main(argv=None, stdout=None):
     log.debug('threads all returned')
 
     meta = {'unixtime': time.time()}
+    if args.meta_prefix:
+        meta['prefix'] = args.meta_prefix
 
     collected = {
         '__meta__': meta,
