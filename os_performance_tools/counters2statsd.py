@@ -39,6 +39,7 @@ def get_statsd_client():
         _statsd_client = statsd.StatsClient(cfg.CONF.counters2statsd.host,
                                             cfg.CONF.counters2statsd.port,
                                             cfg.CONF.counters2statsd.prefix)
+        _statsd_client = _statsd_client.pipeline()
     return _statsd_client
 
 
@@ -96,6 +97,10 @@ class AttachmentResult(testtools.StreamResult):
             for groupname, values in counters.items():
                 if not isinstance(values, dict):
                     continue
+                if groupname == '__meta__':
+                    if 'delta_seconds' in values:
+                        client.timing(
+                            'testrun', values['delta_seconds'] * 1000)
                 for k, v in values.items():
                     k = '{}.{}'.format(groupname, k)
                     try:
@@ -103,3 +108,4 @@ class AttachmentResult(testtools.StreamResult):
                     except ValueError:
                         continue
                     client.incr(k, v)
+        client.send()
