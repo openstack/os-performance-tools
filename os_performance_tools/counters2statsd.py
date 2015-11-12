@@ -101,6 +101,7 @@ class AttachmentResult(testtools.StreamResult):
                     if 'delta_seconds' in values:
                         client.timing(
                             'testrun', values['delta_seconds'] * 1000)
+                    continue
                 for k, v in values.items():
                     k = '{}.{}'.format(groupname, k)
                     try:
