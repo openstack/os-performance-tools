@@ -62,6 +62,7 @@ class TestCounters2Statsd(base.TestCase):
             '__meta__': {
                 'unixtime': time.time(),
                 'delta_seconds': 10.5,
+                'prefix': 'all-tests',
             },
             'mysql': {
                 'Queries': 50
@@ -73,6 +74,6 @@ class TestCounters2Statsd(base.TestCase):
         result.status(file_name='counters.json', file_bytes=fake_counters)
         result.stopTestRun()
         statsd_mock.assert_called_with('localhost', 8125, None)
-        mock_pipeline.timing.assert_called_with('testrun', 10500)
-        mock_pipeline.incr.assert_called_with('mysql.Queries', 50)
+        mock_pipeline.timing.assert_called_with('all-tests.testrun', 10500)
+        mock_pipeline.incr.assert_called_with('all-tests.mysql.Queries', 50)
         mock_pipeline.send.assert_called_with()

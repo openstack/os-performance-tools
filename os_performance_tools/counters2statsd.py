@@ -33,13 +33,45 @@ OPTS = [
 _statsd_client = None
 
 
+class Pipeline(object):
+    '''Wrapper for statsd.Pipeline
+
+    statsd's API doesn't say if prefix can be changed on the fly so
+    we're going to assume it cannot be and make a wrapper that does that.
+    '''
+    def __init__(self, pipeline, dynamic_prefix=None):
+        self.pipeline = pipeline
+        self.dynamic_prefix = dynamic_prefix
+
+    def _add_dynamic_prefix(self, call, *args, **kwargs):
+        if args:
+            args = list(args)
+            stat = args.pop(0)
+        elif 'stat' in kwargs:
+            stat = kwargs.pop('stat')
+        else:
+            return call(*args, **kwargs)
+        if self.dynamic_prefix:
+            stat = '{}.{}'.format(self.dynamic_prefix, stat)
+        call(stat, *args, **kwargs)
+
+    def incr(self, *args, **kwargs):
+        return self._add_dynamic_prefix(self.pipeline.incr, *args, **kwargs)
+
+    def timing(self, *args, **kwargs):
+        return self._add_dynamic_prefix(self.pipeline.timing, *args, **kwargs)
+
+    def send(self):
+        return self.pipeline.send()
+
+
 def get_statsd_client():
     global _statsd_client
     if _statsd_client is None:
         _statsd_client = statsd.StatsClient(cfg.CONF.counters2statsd.host,
                                             cfg.CONF.counters2statsd.port,
                                             cfg.CONF.counters2statsd.prefix)
-        _statsd_client = _statsd_client.pipeline()
+        _statsd_client = Pipeline(_statsd_client.pipeline())
     return _statsd_client
 
 
@@ -94,6 +126,7 @@ class AttachmentResult(testtools.StreamResult):
                 continue
             if not isinstance(counters, dict):
                 continue
+            client.dynamic_prefix = counters.get('__meta__', {}).get('prefix')
             for groupname, values in counters.items():
                 if not isinstance(values, dict):
                     continue
