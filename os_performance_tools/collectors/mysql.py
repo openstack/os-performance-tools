@@ -12,6 +12,12 @@
 #
 # This file was forked from dstat's mysql5_innodb plugin but retains none of
 # that original code other than a list of well known MySQL variable names.
+''' MySQL is accessed via the configuration options found at ~/.my.cnf. This is
+parsed not by libmysqlclient, which may or may not be present, but by
+configparser. As such, some options that are usually usable from that file may
+be ignored by this module. Everything from the "client" section will be passed
+through to pymysql's connect method.
+'''
 
 import logging
 import os
@@ -40,6 +46,13 @@ COLLECT_COUNTERS = (
     'Queries',
     'Slow_queries',
 )
+'''These counters' meaning are all documented in the `MySQL manual`_. They are
+intended to show a picture of how much has been asked of MySQL, and how busy
+MySQL was while executing commands. Each one will be recorded unaltered by name
+in the resulting counters mapping.
+
+.. _`MySQL manual`: http://dev.mysql.com/doc/refman/5.6/en/server-status-variables.html
+'''
 
 
 def _get_config():

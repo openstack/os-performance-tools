@@ -52,3 +52,6 @@ ChangeLog
 *~
 .*.swp
 .*sw?
+
+doc/source/modules.rst
+doc/source/os_performance_tools.*

@@ -9,6 +9,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+'''RabbitMQ is the primary message queue backend for OpenStack. It
+is accessed via the status plugin, which must be enabled for this
+collector to work. The environment variables OS_QA_RABBITMQ_API,
+OS_QA_RABBITMQ_USER, OS_QA_RABBITMQ_PASS, are used to configure how the
+status API is contacted by the collector.
+
+The counters reported are entirely 'published' methods, meaning this is
+just a measure of how many messages were pushed into RabbitMQ.
+
+Because of the way oslo.messaging uses RabbitMQ, we won't know what exact
+application reply queues are attached to. So all of those messages end up
+in the 'reply' counter. Fanouts also have a random string added to them,
+so we strip that off.
+'''
 
 import base64
 import json

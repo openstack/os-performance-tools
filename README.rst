@@ -2,11 +2,8 @@
 os-performance-tools
 ===============================
 
-Python scripts for use in OpenStack's QA process
+Python scripts for use in OpenStack's Performance Measurement
 
-Please feel here a long description which must be at least 3 lines wrapped on
-80 cols, so that distribution package maintainers can use it in their packages.
-Note that this is a hard requirement.
 
 * Free software: Apache license
 * Documentation: http://docs.openstack.org/developer/os-performance-tools
@@ -16,4 +13,6 @@ Note that this is a hard requirement.
 Features
 --------
 
-* TODO
+* Collect counters from various backends and save as JSON and/or Subunit attachments
+* Record delta with previous JSON counters
+* Push counters into statsd
