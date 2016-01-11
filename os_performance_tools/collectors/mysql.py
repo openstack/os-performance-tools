@@ -46,12 +46,11 @@ COLLECT_COUNTERS = (
     'Queries',
     'Slow_queries',
 )
-'''These counters' meaning are all documented in the `MySQL manual`_. They are
-intended to show a picture of how much has been asked of MySQL, and how busy
-MySQL was while executing commands. Each one will be recorded unaltered by name
-in the resulting counters mapping.
-
-.. _`MySQL manual`: http://dev.mysql.com/doc/refman/5.6/en/server-status-variables.html
+'''These counters' meaning are all documented in the `MySQL manual
+<http://dev.mysql.com/doc/refman/5.6/en/server-status-variables.html>`_.
+They are intended to show a picture of how much has been asked of
+MySQL, and how busy MySQL was while executing commands. Each one will
+be recorded unaltered by name in the resulting counters mapping.
 '''
 
 
