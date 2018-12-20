@@ -42,7 +42,7 @@ def delta(previous, current, meta=False):
             raise ValueError('Only mappings of numbers are understood')
         seen.add(k)
     # New keys
-    for k in set(current.keys()) - seen:
+    for k in set(current) - seen:
         product[k] = current[k]
     return product
 
