@@ -7,7 +7,7 @@ Python scripts for use in OpenStack's Performance Measurement
 
 * Free software: Apache license
 * Documentation: http://docs.openstack.org/developer/os-performance-tools
-* Source: http://git.openstack.org/cgit/openstack/os-performance-tools
+* Source: http://opendev.org/openstack/os-performance-tools
 * Bugs: http://bugs.launchpad.net/openstack-qa
 
 Features
