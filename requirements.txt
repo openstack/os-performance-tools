@@ -4,6 +4,6 @@
 
 pbr>=1.6
 PyMySQL>=0.6.2  # MIT License
-statsd>=1.0.0,<3.0
+statsd>=1.0.0
 oslo.config>=1.4.0.0a3
 testtools>=1.4.0

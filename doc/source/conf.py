@@ -20,10 +20,25 @@ sys.path.insert(0, os.path.abspath('../..'))
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
-    'sphinx.ext.autodoc',
     #'sphinx.ext.intersphinx',
-    'oslosphinx'
+    'openstackdocstheme',
+    'sphinxcontrib.apidoc',
 ]
+
+# openstackdocstheme options
+repository_name = 'openstack/os-performance-tools'
+bug_project = 'os-performance-tools'
+bug_tag = ''
+
+html_theme = 'openstackdocs'
+
+# sphinxcontrib.apidoc options
+apidoc_module_dir = '../../os_performance_tools'
+apidoc_output_dir = 'reference/api'
+apidoc_excluded_paths = [
+    'tests/*',
+    'tests']
+apidoc_separate_modules = True
 
 # autodoc generation is a bit aggressive and a nuisance when doing heavy
 # text edit cycles.
@@ -48,6 +63,7 @@ add_module_names = True
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
+
 
 # -- Options for HTML output --------------------------------------------------
 

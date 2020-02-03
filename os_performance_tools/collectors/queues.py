@@ -41,7 +41,7 @@ OS_QA_RABBITMQ_API_USER = os.environ.get('OS_QA_RABBITMQ_USER',
                                          'guest')
 OS_QA_RABBITMQ_API_PASS = os.environ.get('OS_QA_RABBITMQ_PASS',
                                          'guest')
-FANOUT_RE = re.compile('([\-a-zA-Z0-9]+)_fanout_[a-f0-9]{32}')
+FANOUT_RE = re.compile(r'([\-a-zA-Z0-9]+)_fanout_[a-f0-9]{32}')
 
 
 def collect():

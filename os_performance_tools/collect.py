@@ -95,5 +95,6 @@ def main(argv=None, stdout=None):
             output.write(content)
             output.write(b"\n")
 
+
 if __name__ == '__main__':
     main()
