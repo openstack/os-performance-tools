@@ -18,7 +18,7 @@ Tests for `os_performance_tools.collectors`
 """
 
 import json
-import mock
+from unittest import mock
 
 from os_performance_tools.collectors import queues
 from os_performance_tools.tests import base
