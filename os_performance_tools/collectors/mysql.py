@@ -19,11 +19,11 @@ be ignored by this module. Everything from the "client" section will be passed
 through to pymysql's connect method.
 '''
 
+import configparser
 import logging
 import os
 
 import pymysql
-from six.moves import configparser
 
 from os_performance_tools import error
 

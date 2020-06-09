@@ -26,7 +26,7 @@ from os_performance_tools.tests import base
 
 class TestOpenStackQaTols(base.TestCase):
 
-    @mock.patch('six.moves.http_client.HTTPConnection')
+    @mock.patch('http.client.HTTPConnection')
     def test_queues(self, httplib_mock):
         reader = mock.MagicMock(name='getresponse_reader')
         rval = json.dumps([{'name': 'foo', 'message_stats': {'publish': 1}}])

@@ -25,13 +25,13 @@ so we strip that off.
 '''
 
 import base64
+import http.client as http_client
 import json
 import logging
 import os
 import re
 import socket
 
-from six.moves import http_client
 
 from os_performance_tools import error
 

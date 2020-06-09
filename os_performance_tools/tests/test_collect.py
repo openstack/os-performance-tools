@@ -17,13 +17,13 @@ test_collect
 Tests for `os_performance_tools.collect`
 """
 
+import io
 import json
 import mock
 import tempfile
 
 from os_performance_tools import collect
 from os_performance_tools.tests import base
-import six
 import subunit
 import testtools
 
@@ -45,7 +45,7 @@ class TestCollect(base.TestCase):
 
     def setUp(self):
         super(TestCollect, self).setUp()
-        self.stdout = six.BytesIO()
+        self.stdout = io.BytesIO()
         self.attachments = []
 
     @mock.patch('os_performance_tools.collectors.mysql.collect')
