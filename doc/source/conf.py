@@ -30,6 +30,7 @@ openstackdocs_repo_name = 'openstack/os-performance-tools'
 openstackdocs_auto_name = False
 openstackdocs_bug_project = 'os-performance-tools'
 openstackdocs_bug_tag = ''
+openstackdocs_pdf_link = True
 
 html_theme = 'openstackdocs'
 
@@ -82,10 +83,16 @@ htmlhelp_basename = '%sdoc' % project
 # [howto/manual]).
 latex_documents = [
     ('index',
-     '%s.tex' % project,
-     u'%s Documentation' % project,
+     'doc-%s.tex' % project,
+     u'Os-performance-tools Documentation',
      u'OpenStack Foundation', 'manual'),
 ]
 
 # Example configuration for intersphinx: refer to the Python standard library.
 #intersphinx_mapping = {'http://docs.python.org/': None}
+
+latex_use_xindy = False
+latex_elements = {
+    'extraclassoptions': 'openany,oneside',
+    'maxlistdepth': 10
+}
