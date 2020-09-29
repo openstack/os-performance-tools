@@ -19,8 +19,8 @@ Tests for `os_performance_tools.collect`
 
 import io
 import json
-import mock
 import tempfile
+from unittest import mock
 
 from os_performance_tools import collect
 from os_performance_tools.tests import base

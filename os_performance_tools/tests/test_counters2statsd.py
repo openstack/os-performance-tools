@@ -18,8 +18,8 @@ Tests for `os_performance_tools.counters2statsd`
 """
 
 import json
-import mock
 import time
+from unittest import mock
 
 from os_performance_tools import counters2statsd
 from os_performance_tools.tests import base
