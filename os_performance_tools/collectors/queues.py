@@ -48,7 +48,7 @@ def collect():
     log = logging.getLogger()
     conn = http_client.HTTPConnection(OS_QA_RABBITMQ_API)
     auth = '%s:%s' % (OS_QA_RABBITMQ_API_USER, OS_QA_RABBITMQ_API_PASS)
-    auth = base64.encodestring(auth.encode('utf-8')).decode('ascii')
+    auth = base64.encodebytes(auth.encode('utf-8')).decode('ascii')
     auth = auth.replace('\n', '')
     auth = {'Authorization': 'Basic %s' % auth}
     try:
