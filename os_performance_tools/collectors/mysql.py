@@ -59,7 +59,7 @@ def _get_config():
     try:
         with open(os.path.expanduser("~/.my.cnf")) as dfile:
             parser = configparser.ConfigParser()
-            parser.readfp(dfile)
+            parser.read_file(dfile)
             for k, v in parser.items('client'):
                 args[k] = v
     except IOError as e:
