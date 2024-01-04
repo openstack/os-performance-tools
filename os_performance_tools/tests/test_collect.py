@@ -80,7 +80,9 @@ class TestCollect(base.TestCase):
         finally:
             result.stopTestRun()
         self.assertIsNotNone(result.counters_content)
-        content = json.loads(result.counters_content.decode('utf-8'))
+        if isinstance(result.counters_content, memoryview):
+            counters_content = result.counters_content.tobytes()
+        content = json.loads(counters_content.decode('utf-8'))
         self.assertTrue(isinstance(content, dict))
         self.assertIn('mysql', content)
         self.assertIn('queues', content)
@@ -107,7 +109,9 @@ class TestCollect(base.TestCase):
         finally:
             result.stopTestRun()
         self.assertIsNotNone(result.counters_content)
-        content = json.loads(result.counters_content.decode('utf-8'))
+        if isinstance(result.counters_content, memoryview):
+            counters_content = result.counters_content.tobytes()
+        content = json.loads(counters_content.decode('utf-8'))
         self.assertTrue(isinstance(content, dict))
         self.assertIn('mysql', content)
         self.assertIn('queues', content)
